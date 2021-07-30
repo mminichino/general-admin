@@ -1,0 +1,21 @@
+---
+# tasks file for vmware-vm-list
+- set_fact:
+    vm_names: []
+- name: Get VM List
+  vmware_vm_info:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    folder: "{{ vsphere.datacenter }}/vm/{{ vsphere.folder }}"
+  delegate_to: localhost
+  register: vmware_info
+- name: Build VM List
+  set_fact:
+    vm_names: "{{ vm_names }} + [ '{{ item.guest_name }}' ]"
+  with_items: "{{ vmware_info.virtual_machines }}"
+- name: Debug
+  debug:
+    var: vm_names
+  when: showoutput|bool == true

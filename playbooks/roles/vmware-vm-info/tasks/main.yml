@@ -1,0 +1,17 @@
+---
+# tasks file for vmware-vm-info
+- name: Get VM Info
+  vmware_guest_info:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    datacenter: "{{ vsphere.datacenter }}"
+    folder: "{{ vsphere.datacenter }}/vm/{{ vsphere.folder }}"
+    name: "{{ vm_name }}"
+  delegate_to: localhost
+  register: vmware_vm_info
+- name: Debug
+  debug:
+    var: vmware_vm_info
+  when: showoutput|bool == true

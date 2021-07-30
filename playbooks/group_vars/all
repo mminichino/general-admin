@@ -1,0 +1,13 @@
+showoutput: "{{ verbose|bool if verbose is defined else 'false'|bool }}"
+ansible_host_key_checking: False
+ansible_user: "{{ user_name if user_name is defined else 'admin' }}"
+ansible_password: "{{ ask_password if ask_password is defined else lookup('vars',password_var) if password_var is defined else None }}"
+ansible_become_pass: "{{ ask_password if ask_password is defined else lookup('vars',password_var) if password_var is defined else None }}"
+ansible_ssh_user: "{{ user_name if user_name is defined else 'admin' }}"
+ansible_ssh_pass: "{{ ask_password if ask_password is defined else lookup('vars',password_var) if password_var is defined else None }}"
+vsphere:
+  hostname: "{{ vmware_host if vmware_host is defined else 'vcsa' }}"
+  username: "{{ vmware_user if vmware_user is defined else 'administrator@vsphere.local' }}"
+  password: "{{ ask_password if ask_password is defined else lookup('vars',vmware_password) if vmware_password is defined else vsphere_password if vsphere_password is defined }}"
+  folder: "{{ vmware_folder if vmware_folder is defined else '' }}"
+  datacenter: "{{ vmware_dc if vmware_dc is defined else '' }}"

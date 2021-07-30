@@ -1,0 +1,3 @@
+---
+# vars file for vmware-vm-shutdown
+vm_list: "{{ guest_list if guest_list is defined else None }}"

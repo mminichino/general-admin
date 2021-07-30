@@ -1,0 +1,15 @@
+---
+#
+# var:vmware_host
+# var:vmware_user
+# var:vmware_password
+# var:guest_name
+# var:vmware_folder
+# var:vmware_dc
+# var:verbose
+#
+- name: VMware Info
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - vmware-vm-info

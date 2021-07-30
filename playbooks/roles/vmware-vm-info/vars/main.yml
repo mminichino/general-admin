@@ -1,0 +1,3 @@
+---
+# vars file for vmware-vm-info
+vm_name: "{{ guest_name if guest_name is defined else None }}"
