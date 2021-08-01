@@ -7,7 +7,7 @@
 # var:vmware_dc
 # var:verbose
 #
-- name: VMware Info
+- name: VMware List
   hosts: localhost
   gather_facts: no
   roles:

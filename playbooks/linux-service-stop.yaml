@@ -1,0 +1,10 @@
+---
+#
+# var:user_name
+# var:service_name
+#
+- name: Service Stop
+  hosts: all
+  gather_facts: no
+  roles:
+    - linux-service-stop

@@ -1,6 +1,6 @@
 ---
-# tasks file for vmware-vm-shutdown
-- name: Stop VMs
+# tasks file for vmware-vm-start
+- name: Start VMs
   vmware_guest_powerstate:
     hostname: "{{ vsphere.hostname }}"
     username: "{{ vsphere.username }}"
@@ -8,8 +8,7 @@
     validate_certs: no
     folder: "{{ vsphere.folder }}"
     name: "{{ item }}"
-    state: shutdown-guest
+    state: powered-on
   delegate_to: localhost
-  register: vmware_vm_shutdown
+  register: vmware_vm_start
   with_items: "{{ vm_list.split(',') | list }}"
-  ignore_errors: true

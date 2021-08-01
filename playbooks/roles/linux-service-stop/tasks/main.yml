@@ -1,0 +1,5 @@
+---
+# tasks file for linux-service-stop
+- name: Stop Service
+  command: service "{{ service_name }}" stop
+  ignore_unreachable: true

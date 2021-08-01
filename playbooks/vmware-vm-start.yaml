@@ -8,8 +8,8 @@
 # var:vmware_dc
 # var:verbose
 #
-- name: VMware Shutdown
+- name: VMware Start
   hosts: localhost
   gather_facts: no
   roles:
-    - vmware-vm-shutdown
+    - vmware-vm-start
