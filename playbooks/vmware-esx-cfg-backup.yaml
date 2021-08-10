@@ -1,0 +1,13 @@
+---
+#
+# var:vmware_host
+# var:vmware_user
+# var:vmware_password
+# var:host_list
+# var:backup_dir
+#
+- name: Backup ESX Configuration
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - vmware-esx-cfg-backup

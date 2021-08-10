@@ -1,0 +1,4 @@
+---
+# vars file for vmware-esx-cfg-backup
+esx_list: "{{ host_list if host_list is defined else None }}"
+dest_dir: "{{ backup_dir if backup_dir is defined else None }}"

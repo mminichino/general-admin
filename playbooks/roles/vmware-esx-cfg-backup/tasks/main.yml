@@ -1,0 +1,14 @@
+---
+# tasks file for vmware-esx-cfg-backup
+- name: Save ESX configuration
+  community.vmware.vmware_cfg_backup:
+    hostname: "{{ vsphere.hostname }}"
+    esxi_hostname: "{{ item }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    state: saved
+    dest: "{{ dest_dir }}"
+  delegate_to: localhost
+  register: esx_cfg_info
+  with_items: "{{ esx_list.split(',') | list }}"
