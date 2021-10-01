@@ -1,0 +1,20 @@
+---
+#
+# var:vmware_host
+# var:vmware_user
+# var:vmware_password
+# var:vsphere_password
+# var:guest_name
+# var:vmware_folder
+# var:vmware_dc
+# var:dnskey
+# var:dnssecret
+# var:dnsserver
+# var:domain
+# var:verbose
+#
+- name: Configure DNS Records for VMware Host
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - vmware-vm-dns

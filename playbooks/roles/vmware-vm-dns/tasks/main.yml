@@ -1,0 +1,38 @@
+---
+# tasks file for vmware-vm-dns
+- name: Get VM Info
+  vmware_guest_info:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    datacenter: "{{ vsphere.datacenter }}"
+    folder: "{{ vsphere.datacenter }}/vm/{{ vsphere.folder }}"
+    name: "{{ vm_name }}"
+  delegate_to: localhost
+  register: vmware_vm_info
+- name: Debug
+  debug:
+    var: vmware_vm_info
+  when: showoutput|bool == true
+- set_fact:
+    host_address: "{{ vmware_vm_info.instance.hw_eth0.ipaddresses[0] }}"
+- name: Add DNS A Record
+  nsupdate:
+    key_name: "{{ dns_key }}"
+    key_secret: "{{ dns_secret }}"
+    key_algorithm: hmac-sha256
+    server: "{{ dns_host }}"
+    zone: "{{ dns_zone }}"
+    record: "{{ vm_name }}"
+    value: "{{ host_address }}"
+- name: Add DNS PTR Record
+  nsupdate:
+    key_name: "{{ dns_key }}"
+    key_secret: "{{ dns_secret }}"
+    key_algorithm: hmac-sha256
+    server: "{{ dns_host }}"
+    record: "{{ host_address | ipaddr('revdns') }}"
+    type: "PTR"
+    value: "{{ vm_name + '.' + dns_zone + '.' }}"
+    state: present

@@ -5,6 +5,11 @@ ansible_password: "{{ ask_password if ask_password is defined else lookup('vars'
 ansible_become_pass: "{{ ask_password if ask_password is defined else lookup('vars',password_var) if password_var is defined else None }}"
 ansible_ssh_user: "{{ user_name if user_name is defined else 'admin' }}"
 ansible_ssh_pass: "{{ ask_password if ask_password is defined else lookup('vars',password_var) if password_var is defined else None }}"
+dns_key: "{{ dnskey if dnskey is defined else 'dynamicdns' }}"
+dns_secret: "{{ dnssecret if dnssecret is defined else None }}"
+dns_host: "{{ dnsserver if dnsserver is defined else '127.0.0.1' }}"
+dns_zone: "{{ domain if domain is defined else None }}"
+os_strategy: "{{ os_type if os_type is defined else 'systemd' }}"
 vsphere:
   hostname: "{{ vmware_host if vmware_host is defined else 'vcsa' }}"
   username: "{{ vmware_user if vmware_user is defined else 'administrator@vsphere.local' }}"

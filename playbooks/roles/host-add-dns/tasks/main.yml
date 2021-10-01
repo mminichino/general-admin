@@ -1,0 +1,27 @@
+---
+# tasks file for host-add-dns
+- shell: "uname -n"
+  register: uname_cmd
+- set_fact:
+    remote_host_name: "{{ uname_cmd.stdout }}"
+- name: Add DNS A Record
+  nsupdate:
+    key_name: "{{ dns_key }}"
+    key_secret: "{{ dns_secret }}"
+    key_algorithm: hmac-sha256
+    server: "{{ dns_host }}"
+    zone: "{{ dns_zone }}"
+    record: "{{ remote_host_name }}"
+    value: "{{ inventory_hostname }}"
+  delegate_to: localhost
+- name: Add DNS PTR Record
+  nsupdate:
+    key_name: "{{ dns_key }}"
+    key_secret: "{{ dns_secret }}"
+    key_algorithm: hmac-sha256
+    server: "{{ dns_host }}"
+    record: "{{ inventory_hostname | ipaddr('revdns') }}"
+    type: "PTR"
+    value: "{{ remote_host_name + '.' + dns_zone + '.' }}"
+    state: present
+  delegate_to: localhost

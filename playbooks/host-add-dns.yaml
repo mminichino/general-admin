@@ -1,0 +1,12 @@
+---
+#
+# var:dnskey
+# var:dnssecret
+# var:dnsserver
+# var:domain
+#
+- name: Configure DNS Records for Host
+  hosts: all
+  gather_facts: yes
+  roles:
+    - host-add-dns
