@@ -1,0 +1,16 @@
+---
+# tasks file for vmware-get-datastore
+- name: Gather information about all datastores for a datacenter
+  community.vmware.vmware_datastore_info:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    datacenter_name: "{{ vsphere.datacenter }}"
+  delegate_to: localhost
+  register: vmware_datastore_data
+- set_fact:
+    vmware_datastores: "{{ vmware_datastores | default ([]) + [ item.name ] }}"
+  loop: "{{ vmware_datastore_data.datastores | list }}"
+- debug:
+    var: vmware_datastores

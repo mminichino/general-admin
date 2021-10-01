@@ -1,0 +1,28 @@
+---
+#
+# var:vmware_host
+# var:vmware_user
+# var:vmware_password
+# var:vsphere_password
+# var:vmware_dvs
+# var:guest_name
+# var:vmware_folder
+# var:vmware_dc
+# var:getdc
+# var:getcl
+# var:getds
+# var:getdvs
+# var:getpg
+# var:gettmpl
+# var:verbose
+#
+- name: VMware Info
+  hosts: localhost
+  gather_facts: no
+  roles:
+    - { role: vmware-get-dc, when: dc_lookup|bool == true }
+    - { role: vmware-get-cluster, when: cluster_lookup|bool == true }
+    - { role: vmware-get-datastore, when: datastore_lookup|bool == true }
+    - { role: vmware-get-dvs, when: dvs_lookup|bool == true }
+    - { role: vmware-get-portgroup, when: pg_lookup|bool == true }
+    - { role: vmware-get-template, when: template_lookup|bool == true }

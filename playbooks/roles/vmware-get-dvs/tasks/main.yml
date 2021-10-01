@@ -1,0 +1,15 @@
+---
+# tasks file for vmware-get-dvs
+- name: Gather information about all distributed virtual switches
+  community.vmware.vmware_dvswitch_info:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+  delegate_to: localhost
+  register: vmware_dvs_data
+- set_fact:
+    vmware_dvs: "{{ vmware_dvs | default ([]) + [ item.configure.name ] }}"
+  loop: "{{ vmware_dvs_data.distributed_virtual_switches | list }}"
+- debug:
+    var: vmware_dvs

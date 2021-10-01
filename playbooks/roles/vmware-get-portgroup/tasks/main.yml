@@ -1,0 +1,16 @@
+---
+# tasks file for vmware-get-portgroup
+- name: Gather information about all distributed virtual switch port groups
+  community.vmware.vmware_dvs_portgroup_find:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    dvswitch: "{{ vsphere.dvs }}"
+  delegate_to: localhost
+  register: vmware_pg_data
+- set_fact:
+    vmware_pg: "{{ vmware_pg | default ([]) + [ item.name ] }}"
+  loop: "{{ vmware_pg_data.dvs_portgroups | list }}"
+- debug:
+    var: vmware_pg

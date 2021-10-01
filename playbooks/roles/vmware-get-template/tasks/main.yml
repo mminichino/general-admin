@@ -1,0 +1,16 @@
+---
+# tasks file for vmware-get-template
+- name: Gather information about all distributed virtual switch port groups
+  community.vmware.vmware_vm_info:
+    hostname: "{{ vsphere.hostname }}"
+    username: "{{ vsphere.username }}"
+    password: "{{ vsphere.password }}"
+    validate_certs: no
+    vm_type: template
+  delegate_to: localhost
+  register: vmware_template_data
+- set_fact:
+    vmware_template: "{{ vmware_template | default ([]) + [ item.guest_name ] }}"
+  loop: "{{ vmware_template_data.virtual_machines | list }}"
+- debug:
+    var: vmware_template
