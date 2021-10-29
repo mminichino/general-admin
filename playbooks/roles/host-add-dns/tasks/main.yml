@@ -1,9 +1,21 @@
 ---
 # tasks file for host-add-dns
+- fail: msg="DNS key is required."
+  when: dns_key is not defined
+- fail: msg="DNS secret is required."
+  when: dns_secret is not defined
+- fail: msg="DNS host is required."
+  when: dns_host is not defined
+- fail: msg="DNS domain is required."
+  when: dns_zone is not defined
+- fail: msg="IP address is required."
+  when: inventory_hostname is not defined
 - shell: "uname -n"
   register: uname_cmd
 - set_fact:
     remote_host_name: "{{ uname_cmd.stdout }}"
+- fail: msg="Host name for record is required."
+  when: remote_host_name is not defined
 - name: Add DNS A Record
   nsupdate:
     key_name: "{{ dns_key }}"
